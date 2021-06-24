@@ -8,13 +8,23 @@ import com.sun.net.httpserver.HttpServer;
 public class Launcher {
 
     public static void main(String[] args) throws IOException {
-        int port = Integer.parseInt(args[0]);
-        System.out.println("listening on http://localhost:" + port + "/");
+        try {
+            if (args.length == 0) {
+                System.err.println("Usage: Launcher [port]");
+                System.exit(-1);
+            }
+            int port = Integer.parseInt(args[0]);
+            System.out.println("listening on http://localhost:" + port + "/");
 
-        HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
-        server.createContext("/ping", new CallHandler());
+            HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
+            server.createContext("/ping", new CallHandler());
 
-        server.start();
+            server.start();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
