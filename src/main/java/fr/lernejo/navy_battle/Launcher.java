@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 public class Launcher {
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        if (args.length != 0) {
+        if (args.length > 0) {
             int port = Integer.parseInt(args[0]);
             System.out.println("listening on http://localhost:" + port + "/");
             JsonFormatage server = new JsonFormatage(UUID.randomUUID().toString(),"localhost:" + port, "here is the message" );
