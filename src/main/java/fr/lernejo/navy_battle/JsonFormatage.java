@@ -2,8 +2,13 @@ package fr.lernejo.navy_battle;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.URI;
@@ -28,7 +33,7 @@ public class JsonFormatage {
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
         server.setExecutor(Executors.newSingleThreadExecutor());
         server.createContext("/ping", new CallPing());
-        //server.createContext("/api/game/start", new CallStartGame());
+        server.createContext("/api/game/start", this::callStartGame);
         server.start();
     }
 
@@ -42,6 +47,22 @@ public class JsonFormatage {
             .POST(HttpRequest.BodyPublishers.ofString("{\"id\":\"" + this.id + "\", \"url\":\"" + this.url + "\", \"message\":\"" + this.msg + "\"}"))
             .build();
         var res = page.send(req, HttpResponse.BodyHandlers.ofString());
+    }
+
+    public void callStartGame(HttpExchange exchange) throws IOException {
+        InputStream stream = exchange.getRequestBody();
+        JSONParser parseIt = new JSONParser();
+        try {
+            JSONObject obj = (JSONObject) parseIt.parse(new InputStreamReader(stream, "UTF-8"));
+            if (obj.get("id") == null || obj.get("url") == null || obj.get("message") == null) {
+                exchange.sendResponseHeaders(400, 0);
+            }
+        } catch (ParseException e) {
+            exchange.sendResponseHeaders(400, 0);
+            e.printStackTrace();
+        }
+
+        jsonResponse(exchange);
     }
 
     public void jsonResponse(HttpExchange exchange) throws IOException {
