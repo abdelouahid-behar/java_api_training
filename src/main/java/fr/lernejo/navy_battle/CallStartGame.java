@@ -26,7 +26,7 @@ public class CallStartGame implements HttpHandler {
             e.printStackTrace();
         }
 
-        new JsonFormatage().jsonResponse(exchange);
+        //jsonResponse(exchange);
     }
 }
 

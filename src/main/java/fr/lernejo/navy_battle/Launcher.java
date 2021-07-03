@@ -13,18 +13,11 @@ public class Launcher {
         if (args.length != 0) {
             int port = Integer.parseInt(args[0]);
             System.out.println("listening on http://localhost:" + port + "/");
-            JsonMessages server = new JsonMessages(UUID.randomUUID().toString(),"localhost:" + port, "here is the message" );
-            new Launcher().start(port);
+            JsonFormatage server = new JsonFormatage(UUID.randomUUID().toString(),"localhost:" + port, "here is the message" );
+            server.start(port);
             if (args.length == 2)
-                new JsonFormatage().sendPost(args[1]);
+                server.sendPost(args[1]);
         }
     }
 
-    public void start(int port) throws IOException {
-        HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
-        server.setExecutor(Executors.newSingleThreadExecutor());
-        server.createContext("/ping", new CallPing());
-        server.createContext("/api/game/start", new CallStartGame());
-        server.start();
-    }
 }
