@@ -29,9 +29,7 @@ public class CallStartGame implements HttpHandler {
                 resultMessage(exchange, "{\n\t\"id\":\"" + UUID.randomUUID() + "\",\n\t\"url\":\"" + this.URL + "\",\n\t\"message\":\"May the best code win\"\n}", 202);
             }
             var party = new NewGame(reqBody, reqBody);
-            try {
-                party.startIt();
-            } catch (InterruptedException e) { e.printStackTrace(); }
+            try { party.startIt(); } catch (InterruptedException e) { e.printStackTrace(); }
         }
     }
 
