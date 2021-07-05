@@ -14,11 +14,11 @@ public class CallStartGameTest {
     @Test
     void postReqTest() throws IOException, InterruptedException {
 
-        new Server(9876);
-        
+        new Server(9999);
+
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:9876/api/game/start"))
-            .POST(HttpRequest.BodyPublishers.ofString("{\"id\":\"1\", \"url\":\"http://localhost:" + 9876 + "\", \"message\":\"Que le meilleure gagne!\"}")).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:9999/api/game/start"))
+            .POST(HttpRequest.BodyPublishers.ofString("{\"id\":\"1\", \"url\":\"http://localhost:" + 9999 + "\", \"message\":\"Que le meilleure gagne!\"}")).build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         Assertions.assertEquals(202, response.statusCode());
