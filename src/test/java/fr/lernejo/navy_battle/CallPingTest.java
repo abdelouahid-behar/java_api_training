@@ -19,7 +19,7 @@ class CallPingTest {
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:9798/ping")).GET().build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        Assertions.assertEquals(200, response.statusCode());
+        Assertions.assertEquals(400, response.statusCode());
         Assertions.assertEquals("OK", response.body());
     }
 }
